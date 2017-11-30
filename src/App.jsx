@@ -6,6 +6,7 @@ class App extends Component{
     constructor(props){
         super(props);        
         this.handleSeassonClick = this.handleSeassonClick.bind(this);
+        
         this.state ={
             seassons: episode_list,
             current_seasson: ''
@@ -13,34 +14,53 @@ class App extends Component{
     }
 
     handleSeassonClick(event){
-        console.log(event.target.value);
+        this.setState({current_seasson: event.target.value});
     }
 
+
     render(){
-        return(
-            <div>
-                <div className="row">
-                    <div className="col-3">
-                        <div className="list-group" id="list-tab" role="tablist">
-                            {
-                                this.state.seassons.map((seasson) =>
-                                <a 
-                                    
-                                    className={"list-group-item list-group-item-action ".concat(seasson.seasson_number === 1 ? " active": "") }
-                                    id={"list-seasson-".concat(seasson.seasson_number).concat("-list") }
-                                    data-toggle="list" 
-                                    href={"#list-seasson-".concat(seasson.seasson_number) }
-                                    role="tab" 
-                                    onMouseDown={this.handleSeassonClick}
-                                    onClick={this.handleSeassonClick}
-                                    aria-controls={"seasson-".concat(seasson.seasson_number)}>Seasson {seasson.seasson_number}                                    
-                                </a>  
-                            )}                            
+
+        const episodios = this.state.seassons
+            .filter(seasson => {
+                return seasson.seasson_number === this.state.current_seasson;
+            })
+            .map(seasson => {
+                return seasson.episodes.map(episode =>{
+                    return (
+                        <div className="col-sm-3">
+                            <div className="card">                            
+                                <video className="card-img-top" controls="controls" src={episode.video_url} />
+                                <div className="card-body">
+                                    <p className="card-text"><small>{episode.name}</small></p>
+                                </div>
+                            </div>
                         </div>
+                    )
+                })                
+            })
+
+        return(
+            <div className="row">
+                <div className="col-sm-3">
+                    <div className="list-group">
+                        {
+                            this.state.seassons.map((seasson) =>
+                                <button                                    
+                                    className={"list-group-item list-group-item-action"}
+                                    id={"list-seasson-".concat(seasson.seasson_number).concat("-list") }                                    
+                                    onClick={this.handleSeassonClick}
+                                    value={seasson.seasson_number}
+                                >
+                                    {"Seasson - ".concat(seasson.seasson_number)}
+                                </button>  
+                            )
+                        }                            
                     </div>
-                    <div id="list_episodes" className="col-9">
-                        
-                    </div>
+                </div>
+                <div className="row col-sm-9">                    
+                        {                            
+                            episodios
+                        }
                 </div>
             </div>
         );
