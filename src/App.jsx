@@ -51,7 +51,7 @@ class App extends Component{
                                     onClick={this.handleSeassonClick}
                                     value={seasson.seasson_number}
                                 >
-                                    {"Seasson - ".concat(seasson.seasson_number)}
+                                    {"Season - ".concat(seasson.seasson_number)}
                                 </button>  
                             )
                         }                            
