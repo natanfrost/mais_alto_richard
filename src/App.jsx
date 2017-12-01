@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import episode_list from './episode_list.json'
 import './App.css';
-import {DM} from './all.js'
 
 class App extends Component{
     constructor(props){
